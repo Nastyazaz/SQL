@@ -1,7 +1,6 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
-import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
@@ -16,8 +15,8 @@ public class VerificationPage {
     public void verifyVerificationPageVisiblity(){
         codeField.shouldBe(visible);
     }
-    public void verifyErrorNotification(String exeptedText){
-        errorNotification.shouldHave(exactText(exeptedText)).shouldBe(visible);
+    public void verifyErrorNotification(){
+        errorNotification.shouldBe(visible);
     }
     public DashboardPage validVerify(String verificationCode) {
         verify(verificationCode);

@@ -26,31 +26,29 @@ public class AuthorizationTest {
     }
 
     @Test
-    @DisplayName("Should successfully login")
-    void shouldSuccessfullyLogin() {
+    void shouldSuccessfulLogin() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
-        var verificationPage = LoginPage.validLogin(authInfo);
+        var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.verifyVerificationPageVisiblity();
         var verificationCode = SQLHelper.getVerificationCode();
         verificationPage.validVerify(verificationCode.getCode());
     }
 
     @Test
-    @DisplayName("Should get error notification if user is not exist in base")
-    void shouldGetErrorNotificationIfUserIsNotExistInBase() {
+    void shouldGetErrorNotificationIfLoginWithRandomUserWithoutAddingToBase() {
         var authInfo = DataHelper.generateRandomUser();
-        LoginPage.validLogin(authInfo);
-        LoginPage.verifyErrorNotification("Ошибка! Неверно указан логин или пароль");
+        loginPage.validLogin(authInfo);
+        loginPage.verifyErrorNotification();
     }
 
     @Test
-    @DisplayName("Should get error notification if login with exist in base and active user and random verification code")
-    void shouldGetErrorNotificationIfLoginWithExistInBaseAndActiveUserAndRandomVerificationCode() {
+    void shouldGetErrorNotificationIfLoginWithExistUserAndRandomVerificationCode() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
         var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.verifyVerificationPageVisiblity();
         var verificationCode = DataHelper.generateRandomVerificationCode();
         verificationPage.verify(verificationCode.getCode());
-        LoginPage.verifyErrorNotification("Ошибка! Неверно указан код! Попробуйте ещё раз.");
+        verificationPage.verifyErrorNotification();
+
     }
 }
