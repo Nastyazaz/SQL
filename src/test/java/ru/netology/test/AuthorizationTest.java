@@ -26,6 +26,7 @@ public class AuthorizationTest {
     }
 
     @Test
+    @DisplayName("Should successfully login")
     void shouldSuccessfulLogin() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
         var verificationPage = loginPage.validLogin(authInfo);
@@ -35,20 +36,23 @@ public class AuthorizationTest {
     }
 
     @Test
+    @DisplayName("Should get error notification if login with random user without adding to base")
     void shouldGetErrorNotificationIfLoginWithRandomUserWithoutAddingToBase() {
         var authInfo = DataHelper.generateRandomUser();
         loginPage.validLogin(authInfo);
-        loginPage.verifyErrorNotification();
+        loginPage.verifyErrorNotification("Ошибка! Неверно указан логин или пароль");
     }
 
     @Test
+    @DisplayName("Should get error notification if login with exist user and random verification code")
     void shouldGetErrorNotificationIfLoginWithExistUserAndRandomVerificationCode() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
         var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.verifyVerificationPageVisiblity();
         var verificationCode = DataHelper.generateRandomVerificationCode();
         verificationPage.verify(verificationCode.getCode());
-        verificationPage.verifyErrorNotification();
+        loginPage.verifyErrorNotification("Ошибка! Неверно указан код! Попробуйте еще раз.");
+    }
 
     }
-}
+
